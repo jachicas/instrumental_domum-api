@@ -20,7 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->string('dui', 9)->unique();
             $table->string('nit', 14)->unique();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('phone');
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
