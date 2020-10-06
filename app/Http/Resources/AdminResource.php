@@ -17,7 +17,8 @@ class AdminResource extends JsonResource
         $role = $this->getRoleNames();
         return [
             'role' => $role[0],
-            'id' => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'last_name' => $this->last_name,
             'dui' => $this->dui,
             'nit' => $this->nit,

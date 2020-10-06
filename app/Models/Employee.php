@@ -17,7 +17,7 @@ class Employee extends Model
     protected $guard_name = 'admin';
 
     protected $fillable = [
-        'name', 'last_name', 'dui', 'nit', 'email', 'phone'
+        'name', 'last_name', 'dui', 'nit', 'email', 'password', 'phone'
     ];
 
     protected $casts = [

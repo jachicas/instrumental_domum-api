@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Whoops\Run;
 
 class AdminRequest extends FormRequest
 {
@@ -26,10 +28,19 @@ class AdminRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:150'],
             'last_name' => ['required', 'string', 'max:150'],
-            'dui' => ['required', 'size:9', 'unique:employees,dui'],
-            'nit' => ['required', 'size:14', 'unique:employees,nit'],
-            'email' => ['required', 'email', 'max:255', 'unique:employees,email'],
-            'phone' => ['required', 'size:8']
+            'dui' => [
+                'required', 'size:9',
+                Rule::unique('employees')->ignore($this->route('admin'))
+            ],
+            'nit' => ['required', 'size:14',
+                Rule::unique('employees')->ignore($this->route('admin'))
+            ],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email',
+                Rule::unique('employees')->ignore($this->route('admin'))
+            ],
+            'phone' => ['required', 'size:8',
+                Rule::unique('employees')->ignore($this->route('admin'))
+            ]
         ];
     }
 }

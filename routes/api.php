@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('admin/store', AdminController::class)->only([
-    'store'
-]);
+Route::apiResource('admins', AdminController::class);
+
+Route::delete('destroy/admins/{employee}', [AdminController::class, 'destroy']);
 
 /* Route::middleware('auth:sanctum')->group(function () {
 
