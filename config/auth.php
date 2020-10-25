@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'employee',
+        'guard' => 'employees',
         'passwords' => 'employee',
     ],
 
@@ -41,7 +41,7 @@ return [
             'provider' => 'employee',
         ],
 
-        'employee' => [
+        'employees' => [
             'driver' => 'sanctum',
             'provider' => 'employee',
             'hash' => false,

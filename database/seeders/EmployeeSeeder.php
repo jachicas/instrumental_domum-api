@@ -6,6 +6,7 @@ use App\Models\Employee;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class EmployeeSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-/*         $employee = $this->employees->create([
+        $employee = $this->employees->create([
             'name' => 'Carlos',
             'last_name' => 'Chicas',
             'dui' => '123456789',
@@ -29,8 +30,7 @@ class EmployeeSeeder extends Seeder
             'password' => Hash::make('qwerty123'),
             'phone' => '12345678'
         ]);
-
-        $employee->assignRole('employee'); */
+        $employee->assignRole('employee');
 
         $admin = $this->employees->create([
             'name' => 'Jose',

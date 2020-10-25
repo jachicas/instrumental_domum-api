@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminRequest;
-use App\Http\Resources\AdminResource;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -35,7 +35,7 @@ class AdminController extends Controller
     {
         $admins = $this->employees->all();
 
-        return AdminResource::collection($admins);
+        return EmployeeResource::collection($admins);
     }
 
     /**
@@ -50,7 +50,7 @@ class AdminController extends Controller
 
         $admin->assignRole('admin');
 
-        return (new AdminResource($admin))
+        return (new EmployeeResource($admin))
             ->response('Admin Created', 201);
     }
 
@@ -62,7 +62,7 @@ class AdminController extends Controller
      */
     public function show(Employee $admin)
     {
-        return new AdminResource($admin);
+        return new EmployeeResource($admin);
     }
 
     /**
@@ -76,8 +76,8 @@ class AdminController extends Controller
     {
         $admin->update($request->all());
 
-        return (new AdminResource($admin))
-            ->response('', 205);
+        return (new EmployeeResource($admin))
+            ->response('Employe Updated', 205);
     }
 
     /**
@@ -86,10 +86,15 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $admin)
+    public function destroy(Employee $employee)
     {
-        $admin->delete();
+        $employee->delete();
 
         return response('', 205);
+    }
+
+    public function adminFirstExist()
+    {
+        return $this->employees->role('admin')->exists() ? response('Admin exist', 401) : response('Create a new admin', 200);
     }
 }
