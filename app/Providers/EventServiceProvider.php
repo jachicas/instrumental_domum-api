@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\OffterRegistered;
+use App\Http\Controllers\OffterController;
+use App\Listeners\UpdateStatusOffter;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        OffterRegistered::class => [
+            UpdateStatusOffter::class,
         ],
     ];
 

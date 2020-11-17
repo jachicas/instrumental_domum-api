@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BrandRequest;
-use App\Http\Resources\BrandResource;
-use App\Models\Brand;
+use App\Events\OffterRegistered;
+use App\Http\Requests\OffterRequest;
+use App\Http\Resources\OffterResource;
+use App\Models\Offter;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class OffterController extends Controller
 {
     /**
      * Create a new controller instance
-     * @param Brand $brand
+     * @param Offter $offter
      * @return void
      */
 
-    public function __construct(Brand $brand)
+    public function __construct(Offter $offter)
     {
-        $this->brands = $brand;
+        $this->offters = $offter;
     }
     /**
      * Display a listing of the resource.
@@ -26,9 +28,9 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = $this->brands->all();
+        $offters = $this->offters->all();
 
-        return BrandResource::collection($brands);
+        return OffterResource::collection($offters);
     }
 
     /**
@@ -37,12 +39,20 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BrandRequest $request)
+    public function store(OffterRequest $request)
     {
-        $brand = $this->brands->create($request->all());
+        $offter = $this->offters->create([
+            'product_id' => $request->product_id,
+            'discount' => $request->discount,
+            'status' => $request->status,
+            'start' => Carbon::now(),
+            'finish' => $request->finish
+        ]);
 
-        return (new BrandResource($brand))
-            ->response('Brand Created', 201);
+        event(new OffterRegistered($offter));
+
+        return (new OffterResource($offter))
+            ->response('', 201);
     }
 
     /**
@@ -51,7 +61,7 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Brand $brand)
+    public function show($id)
     {
         //
     }
@@ -63,12 +73,9 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BrandRequest $request, Brand $brand)
+    public function update(Request $request, $id)
     {
-        $brand->update($request->all());
-
-        return (new BrandResource($brand))
-            ->response('Brand Update', 205);
+        //
     }
 
     /**
@@ -77,10 +84,8 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Brand $brand)
+    public function destroy($id)
     {
-        $brand->delete();
-
-        return response('Brand Deleted', 205);
+        //
     }
 }

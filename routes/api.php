@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\OffterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -52,6 +53,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('productTypes', ProductTypeController::class)->except('show');
 
         Route::apiResource('products', ProductController::class);
+
+        Route::apiResource('offters', OffterController::class);
 
         Route::post('register', [RegisterController::class, 'register'])->name('verification.notice');
     });

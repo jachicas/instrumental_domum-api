@@ -17,6 +17,16 @@ class ProductTypeResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'products' => $this->products->map(fn ($product) => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'product_type' => $product->productType->name,
+                'status' => $product->status,
+                'quantity' => $product->quantity,
+                'price' => $product->price,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at
+            ]),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

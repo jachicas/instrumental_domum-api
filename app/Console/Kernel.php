@@ -2,7 +2,11 @@
 
 namespace App\Console;
 
+use App\Listeners\UpdateStatusOffter;
+use App\Models\Offter;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -24,7 +28,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+       //
     }
 
     /**
@@ -34,7 +38,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

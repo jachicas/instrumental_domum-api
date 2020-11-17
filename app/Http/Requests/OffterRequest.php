@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ProductRequest extends FormRequest
+class OffterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +24,10 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', Rule::unique('products')->ignore($this->route('product')), 'max:255'],
-            'product_type_id' => ['required', 'integer', 'exists:product_types,id'],
-            'brand_id' => ['required', 'integer', 'exists:brands,id'],
+            'product_id' => ['required', 'unique:offters,product_id', 'integer', 'exists:products,id'],
+            'discount' => ['required', 'integer', 'between:1,100'],
             'status' => ['required', 'boolean'],
-            'quantity' => ['required', 'integer', 'min:1'],
-            'price' => ['required', 'numeric', 'min:0']
+            'finish' => ['required', 'date_format:Y-m-d H:i']
         ];
     }
 }
