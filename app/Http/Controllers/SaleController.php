@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\OffterRegistered;
-use App\Http\Requests\OffterRequest;
-use App\Http\Resources\OffterResource;
-use App\Models\Offter;
-use Carbon\Carbon;
+use App\Http\Requests\SaleRequest;
+use App\Http\Resources\SaleResource;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 
-class OffterController extends Controller
+class SaleController extends Controller
 {
-    /**
+     /**
      * Create a new controller instance
-     * @param Offter $offter
+     * @param Sale $sale
      * @return void
      */
 
-    public function __construct(Offter $offter)
+    public function __construct(Sale $sale)
     {
-        $this->offters = $offter;
+        $this->sales = $sale;
     }
     /**
      * Display a listing of the resource.
@@ -28,9 +26,9 @@ class OffterController extends Controller
      */
     public function index()
     {
-        $offters = $this->offters->all();
+        $sales = $this->sales->all();
 
-        return OffterResource::collection($offters);
+        return SaleResource::collection($sales);
     }
 
     /**
@@ -39,13 +37,11 @@ class OffterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(OffterRequest $request)
+    public function store(SaleRequest $request)
     {
-        $offter = $this->offters->create($request->all());
+        $sales = $this->sales->create($request->all());
 
-        //event(new OffterRegistered($offter));
-
-        return (new OffterResource($offter))
+        return (new SaleResource($sales))
             ->response('', 201);
     }
 
@@ -55,9 +51,9 @@ class OffterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Offter $offter)
+    public function show(Sale $sale)
     {
-        return new OffterResource($offter);
+        return new SaleResource($sale);
     }
 
     /**
@@ -67,11 +63,11 @@ class OffterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OffterRequest $request, Offter $offter)
+    public function update(SaleRequest $request, Sale $sale)
     {
-        $offter->update($request->all());
+        $sale->update($request->all());
 
-        return (new OffterResource($offter))
+        return (new SaleResource($sale))
             ->response('', 205);
     }
 
@@ -81,10 +77,10 @@ class OffterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Offter $offter)
+    public function destroy(Sale $sale)
     {
-        $offter->delete();
+        $sale->delete();
 
-        return response('Offter deleted', 205);
+        return response('Sale deleted', 205);
     }
 }

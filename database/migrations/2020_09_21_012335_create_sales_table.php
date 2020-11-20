@@ -18,7 +18,6 @@ class CreateSalesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('employee_id')->constrained('employees');
             $table->string('payment_method');
-            $table->double('total', 7, 2);
             $table->string('status');
             $table->timestamps();
         });

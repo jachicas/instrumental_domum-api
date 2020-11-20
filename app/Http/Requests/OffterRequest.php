@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OffterRequest extends FormRequest
@@ -24,10 +25,18 @@ class OffterRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => ['required', 'unique:offters,product_id', 'integer', 'exists:products,id'],
+            'product_id' => ['required', 'integer', 'exists:products,id',
+                Rule::unique('offters')->where(function ($query) {
+                    return $query->where([
+                        ['status', 1],
+                        ['product_id', $this->request->get('product_id')]
+                    ]);
+                })->ignore($this->route('offter'))
+            ],
             'discount' => ['required', 'integer', 'between:1,100'],
             'status' => ['required', 'boolean'],
-            'finish' => ['required', 'date_format:Y-m-d H:i']
+            'start' => ['required', 'date_format:Y-m-d H:i', 'after:now'],
+            'finish' => ['required', 'date_format:Y-m-d H:i', 'after:start']
         ];
     }
 }

@@ -18,8 +18,7 @@ class CreateSaleDetailsTable extends Migration
             $table->foreignId('sale_id')->constrained('sales');
             $table->foreignId('product_id')->constrained('products');
             $table->integer('quantity');
-            $table->string('status');
-            $table->double('price', 7, 2);
+            $table->double('total', 7, 2);
             $table->timestamps();
         });
     }

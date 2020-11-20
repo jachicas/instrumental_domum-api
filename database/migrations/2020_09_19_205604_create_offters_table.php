@@ -19,7 +19,7 @@ class CreateOfftersTable extends Migration
             $table->integer('discount');
             $table->boolean('status');
             $table->timestamp('start');
-            $table->timestamp('finish');
+            $table->timestamp('finish')->nullable();
             $table->timestamps();
         });
     }

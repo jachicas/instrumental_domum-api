@@ -10,7 +10,7 @@ class Sale extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'employee_id', 'payment_method', 'total', 'status'
+        'user_id', 'employee_id', 'payment_method', 'status'
     ];
 
     public function user()
@@ -23,5 +23,5 @@ class Sale extends Model
         return $this->belongsTo('App\Models\Employee');
     }
 
-    
+
 }
