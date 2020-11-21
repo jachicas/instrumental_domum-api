@@ -29,6 +29,7 @@ class EmployeeFactory extends Factory
             'last_name' => $this->faker->lastName,
             'dui' => Str::random(9),
             'nit' => Str::random(14),
+            'birthdate' => $this->faker->date,
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('qwerty'),
             'phone' => Str::random(8)

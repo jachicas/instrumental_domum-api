@@ -16,7 +16,6 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('employee_id')->constrained('employees');
             $table->string('payment_method');
             $table->string('status');
             $table->timestamps();

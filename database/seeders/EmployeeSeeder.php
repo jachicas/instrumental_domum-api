@@ -26,6 +26,7 @@ class EmployeeSeeder extends Seeder
             'last_name' => 'Chicas',
             'dui' => '123456789',
             'nit' => '12345678912345',
+            'birthdate' => "2000-03-04",
             'email' => 'carlos.chikas@gmail.com',
             'password' => Hash::make('qwerty123'),
             'phone' => '12345678'
@@ -37,6 +38,7 @@ class EmployeeSeeder extends Seeder
             'last_name' => 'Chicas',
             'dui' => '012345678',
             'nit' => '02345678912345',
+            'birthdate' => '2020-04-03',
             'email' => 'dargor.chikas@gmail.com',
             'password' => Hash::make('qwerty123'),
             'phone' => '61650094'

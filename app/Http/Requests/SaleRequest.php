@@ -25,7 +25,6 @@ class SaleRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'payment_method' => ['required', 'string', 'in:card,cash'],
             'status' => ['required', 'string', 'in:car_shop,sale_active,sale_inactive']
         ];

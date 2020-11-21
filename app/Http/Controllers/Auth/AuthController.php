@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class AuthController extends Controller
         if ($name_guard == 'employee') {
             return new EmployeeResource(auth()->user());
         } elseif ($name_guard == 'user') {
-            return response('', 200);
+            return new UserResource(auth()->user());
         } else {
             return response('', 404);
         }

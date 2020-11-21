@@ -23,18 +23,10 @@ class SaleResource extends JsonResource
                 'created_at' => $this->user->created_at,
                 'updated_at' => $this->user->updated_at
             ],
-            'employee' => [
-                'id' => $this->employee->id,
-                'name' => $this->employee->name,
-                'last_name' => $this->employee->last_name,
-                'rol' => $this->employee->getRoleNames()[0],
-                'created_at' => $this->employee->created_at,
-                'updated_at' => $this->employee->updated_at,
-            ],
             'payment_method' => $this->payment_method,
             'status' => $this->status,
-            'created_at' => $this->employee->created_at,
-            'updated_at' => $this->employee->updated_at
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

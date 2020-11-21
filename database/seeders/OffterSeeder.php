@@ -3,13 +3,14 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Brand;
+use App\Models\Offter;
 
-class BrandSeeder extends Seeder
+class OffterSeeder extends Seeder
 {
-    public function __construct(Brand $brand)
+
+    public function __construct(Offter $offter)
     {
-        $this->brands = $brand;
+        $this->offters = $offter;
     }
 
     /**
@@ -19,6 +20,6 @@ class BrandSeeder extends Seeder
      */
     public function run()
     {
-        $this->brands->factory()->count(20)->create();
+        $this->offters->factory()->count(20)->create();
     }
 }

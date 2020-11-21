@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Brand;
+use App\Models\Sale;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BrandFactory extends Factory
+class SaleFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Brand::class;
+    protected $model = Sale::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,9 @@ class BrandFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->word,
+            'user_id' => $this->faker->numberBetween($max = 20, $min = 1),
+            'payment_method' => $this->faker->randomElement($array = array('card', 'cash')),
+            'status' => $this->faker->boolean(50)
         ];
     }
 }

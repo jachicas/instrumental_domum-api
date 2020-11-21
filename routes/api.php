@@ -9,6 +9,7 @@ use App\Http\Controllers\OffterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\User\Auth\UserAuthController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,9 +26,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', [LoginController::class, 'login']);
+Route::post('login', [UserAuthController::class, 'login']);
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
+
+    Route::post('login', [LoginController::class, 'login']);
+
     Route::get('first', [AdminController::class, 'adminFirstExist']);
 });
 

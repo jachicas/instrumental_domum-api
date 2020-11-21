@@ -34,6 +34,7 @@ class AdminRequest extends FormRequest
             'nit' => ['required', 'size:14',
                 Rule::unique('employees')->ignore($this->route('admin'))
             ],
+            'birthdate' => ['required', 'date_format:Y-m-d', 'before: -18 years'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email',
                 Rule::unique('employees')->ignore($this->route('admin'))
             ],
