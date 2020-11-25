@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\OffterRegistered;
 use App\Http\Requests\OffterRequest;
 use App\Http\Resources\OffterResource;
 use App\Models\Offter;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class OffterController extends Controller
 {
@@ -55,9 +52,9 @@ class OffterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Offter $offter)
+    public function show()
     {
-        return new OffterResource($offter);
+        //
     }
 
     /**

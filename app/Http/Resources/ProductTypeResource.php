@@ -24,8 +24,8 @@ class ProductTypeResource extends JsonResource
                 'status' => $product->status,
                 'quantity' => $product->quantity,
                 'price' => $product->price,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at
+                'created_at' => $product->created_at,
+                'updated_at' => $product->updated_at
             ]),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
