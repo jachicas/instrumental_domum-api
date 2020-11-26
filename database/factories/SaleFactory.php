@@ -24,6 +24,7 @@ class SaleFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween($max = 20, $min = 1),
             'payment_method' => $this->faker->randomElement($array = array('card', 'cash')),
+            'total' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 10000),
             'status' => $this->faker->boolean(50)
         ];
     }

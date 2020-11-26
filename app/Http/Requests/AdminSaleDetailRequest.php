@@ -27,12 +27,14 @@ class AdminSaleDetailRequest extends FormRequest
         return [
             'sale_id' => ['required', 'integer', 'exists:sales,id'],
             'product_id' => ['required', 'integer', 'exists:products,id'],
-            'quantity' => ['required', 'integer',
+            'quantity' => [
+                'required', 'integer',
                 function ($attribute, $value, $fail) {
                     $instance = Product::find($this->input('product_id'));
-
-                    if ($instance->getAttribute('quantity') < $value) {
-                        $fail($attribute. ' must be less than or equal to the quantity of the products');
+                    if ($instance->getAttribute('quantity') == 0) {
+                        $fail('This product is out of stock!');
+                    } elseif ($instance->getAttribute('quantity') < $value) {
+                        $fail($attribute . ' must be less than or equal to the quantity of the products');
                     }
                 }
             ]

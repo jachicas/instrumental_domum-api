@@ -77,9 +77,25 @@ class SaleDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminSaleDetailRequest $request, SaleDetail $saleDetail)
     {
-        //
+        $product_price = Product::where('id', $request->product_id)->first();
+        $saleDetail->update([
+            'sale_id' => $request->sale_id,
+            'product_id' => $request->product_id,
+            'quantity' => $request->quantity,
+            'total' => $product_price->price * $request->quantity
+        ]);
+
+        //News variables for validations
+        $quantity_product =  $saleDetail->product->quantity;
+
+        $saleDetail->product->update([
+            'quantity' => $quantity_product -= $request->quantity
+        ]);
+
+        return (new SaleDetailResource($saleDetail))
+            ->response('', 205);
     }
 
     /**
@@ -88,8 +104,10 @@ class SaleDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(SaleDetail $saleDetail)
     {
-        //
+        $saleDetail->delete();
+
+        return response('SaleDetail deleted', 205);
     }
 }
