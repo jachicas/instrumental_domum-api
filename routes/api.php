@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::apiResource('sales', SaleController::class);
 
-        Route::apiResource('sale_details', SaleDetailController::class)->except('show');
+        Route::apiResource('sale_details', SaleDetailController::class)->only('index', 'store');
 
         Route::post('register', [RegisterController::class, 'register'])->name('verification.notice');
     });
