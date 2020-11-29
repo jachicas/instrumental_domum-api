@@ -44,6 +44,7 @@ class SaleDetailResource extends JsonResource
             ],
             'quantity' => $this->quantity,
             'total' => $this->total,
+            'with_discount' => $this->with_discount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

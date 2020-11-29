@@ -46,14 +46,17 @@ class SaleDetailController extends Controller
         if ($product_price->offter->status) {
             $discount = $product_price->price * ($product_price->offter->discount / 100);
             $totalSaleDetail = $product_price->price - $discount;
+            $with_discount = true;
         } else {
             $totalSaleDetail = $product_price->price * $request->quantity;
+            $with_discount = false;
         }
         $saleDetails = $this->sale_details->create([
             'sale_id' => $request->sale_id,
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
-            'total' => $totalSaleDetail
+            'total' => $totalSaleDetail,
+            'with_discount' => $with_discount
         ]);
 
         //News variables for validations

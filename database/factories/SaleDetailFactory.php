@@ -25,6 +25,7 @@ class SaleDetailFactory extends Factory
             'sale_id' => $this->faker->numberBetween($max = 20, $min = 1),
             'product_id'=> $this->faker->numberBetween($max = 20, $min = 1),
             'quantity' => $this->faker->randomNumber($nbDigits = 3),
+            'with_discount' => $this->faker->boolean(50),
             'total' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 10000)
         ];
     }

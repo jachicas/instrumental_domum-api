@@ -19,6 +19,7 @@ class CreateSaleDetailsTable extends Migration
             $table->foreignId('product_id')->constrained('products');
             $table->integer('quantity');
             $table->double('total');
+            $table->boolean('with_discount');
             $table->timestamps();
         });
     }
