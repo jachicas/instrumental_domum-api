@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SaleTotal;
-use App\Events\UpdateSaleTotal;
 use App\Http\Requests\AdminSaleDetailRequest;
 use App\Http\Resources\SaleDetailResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Models\SaleDetail;
+use Illuminate\Http\Request;
 
 class SaleDetailController extends Controller
 {

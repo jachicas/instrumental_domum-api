@@ -13,6 +13,7 @@ use App\Http\Controllers\SaleDetailController;
 use App\Http\Controllers\User\Auth\UserAuthController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Rules\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('sales', SaleController::class);
 
         Route::apiResource('sale_details', SaleDetailController::class)->only('index', 'store');
+
+        Route::post('sale_actives', [SaleController::class, 'saleActives']);
 
         Route::post('register', [RegisterController::class, 'register'])->name('verification.notice');
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaleRequest;
+use App\Http\Resources\SaleDetailResource;
 use App\Http\Resources\SaleResource;
 use App\Models\Sale;
 use Illuminate\Http\Request;
@@ -82,5 +83,16 @@ class SaleController extends Controller
         $sale->delete();
 
         return response('Sale deleted', 205);
+    }
+
+    public function saleActives(Request $request)
+    {
+        $request->validate([
+            'status' => ['required', 'boolean']
+        ]);
+
+        $saleDetails = $this->sales->where('status', $request->status)->get();
+
+        return SaleResource::collection($saleDetails);
     }
 }
