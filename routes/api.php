@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\OffterController;
+use App\Http\Controllers\ProductBinnacleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SaleController;
@@ -13,8 +14,6 @@ use App\Http\Controllers\SaleDetailController;
 use App\Http\Controllers\User\Auth\UserAuthController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
-use App\Models\Product;
-use Laravel\Jetstream\Rules\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,10 +65,26 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::apiResource('sale_details', SaleDetailController::class)->only('index', 'store');
 
+        Route::apiResource('product_binnacles', ProductBinnacleController::class)->only('index', 'show');
+
+        Route::post('action_product_binnacles/{product}', [ProductBinnacleController::class, 'withAction']);
+
         Route::post('register', [RegisterController::class, 'register'])->name('verification.notice');
     });
 
     Route::middleware('role:admin|employee')->group(function () {
+
+        Route::apiResource('brands', BrandController::class)->only('index', 'store', 'show');
+
+        Route::apiResource('productTypes', ProductTypeController::class)->only('index', 'store', 'show');
+
+        Route::apiResource('products', ProductController::class)->only('index', 'store', 'show');
+
+        Route::apiResource('offters', OffterController::class)->only('index', 'store');
+
+        Route::apiResource('sales', SaleController::class)->only('index', 'show');
+
+        Route::apiResource('sale_details', SaleDetailController::class)->only('index');
 
         Route::post('add_products/{product}', [ProductController::class, 'addQuantityProduct']);
 
