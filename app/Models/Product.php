@@ -32,4 +32,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\SaleDetail');
     }
+
+    public function productBinnacles()
+    {
+        return $this->hasMany('App\Models\ProductBinnacle');
+    }
 }

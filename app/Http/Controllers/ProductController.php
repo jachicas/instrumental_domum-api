@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\RemoveProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductBinnacle;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -42,6 +45,13 @@ class ProductController extends Controller
     {
         $product = $this->products->create($request->all());
 
+        ProductBinnacle::create([
+            'product_id' => $product->id,
+            'employee_id' => auth()->id(),
+            'description' => $request->name . " product created",
+            'action' => "create"
+        ]);
+
         return (new ProductResource($product))
             ->response('', 201);
     }
@@ -68,6 +78,13 @@ class ProductController extends Controller
     {
         $product->update($request->all());
 
+        ProductBinnacle::create([
+            'product_id' => $product->id,
+            'employee_id' => auth()->id(),
+            'description' => "Product updated",
+            'action' => "update"
+        ]);
+
         return (new ProductResource($product))
             ->response('', 205);
     }
@@ -83,5 +100,48 @@ class ProductController extends Controller
         $product->delete();
 
         return response('Product deleted', 205);
+    }
+
+    public function addQuantityProduct(AddProductRequest $request, Product $product)
+    {
+        $product->update([
+            'quantity' => $product->quantity += $request->quantity
+        ]);
+
+        ProductBinnacle::create([
+            'product_id' => $product->id,
+            'employee_id' => auth()->id(),
+            'description' => $request->quantity . " products added",
+            'action' => "add"
+        ]);
+
+        return (new ProductResource($product))
+            ->response('', 201);
+    }
+
+    public function removeQuantityProduct(RemoveProductRequest $request, Product $product)
+    {
+        if ($product->quantity == 0) {
+            return response('This product is out of stock!', 422);
+        } elseif ($request->quantity > $product->quantity) {
+            return response('The quantity must be less than or equal to the quantity of the product', 422);
+        }
+        if (!($product->status)) {
+            return response('This product is not avaible', 422);
+        }
+
+        $product->update([
+            'quantity' => $product->quantity -= $request->quantity
+        ]);
+
+        ProductBinnacle::create([
+            'product_id' => $product->id,
+            'employee_id' => auth()->id(),
+            'description' => $request->quantity . " products removed",
+            'action' => "remove"
+        ]);
+
+        return (new ProductResource($product))
+            ->response('', 201);
     }
 }

@@ -41,4 +41,9 @@ class Employee extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Models\Sale');
     }
+
+    public function productBinnacles()
+    {
+        return $this->hasMany('App\Models\ProductBinnacle');
+    }
 }
