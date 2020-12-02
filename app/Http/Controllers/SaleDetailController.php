@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminSaleDetailRequest;
 use App\Http\Resources\SaleDetailResource;
+use App\Models\Offter;
 use App\Models\Product;
 use App\Models\SaleDetail;
 use Illuminate\Http\Request;
@@ -40,13 +41,17 @@ class SaleDetailController extends Controller
      */
     public function store(AdminSaleDetailRequest $request)
     {
-        $product_price = Product::where('id', $request->product_id)->first();
-        if ($product_price->offter->status) {
-            $discount = $product_price->price * ($product_price->offter->discount / 100);
-            $totalSaleDetail = $product_price->price - $discount;
+        $product = Product::where('id', $request->product_id)->first();
+        $product_price = Offter::where([
+            ['status', true],
+            ['product_id', $request->product_id]
+        ])->get();
+        if (!$product_price->isEmpty()) {
+            $discount = $product->price * ($product_price[0]->discount / 100);
+            $totalSaleDetail = ($product->price - $discount) * $request->quantity;
             $with_discount = true;
         } else {
-            $totalSaleDetail = $product_price->price * $request->quantity;
+            $totalSaleDetail = $product->price * $request->quantity;
             $with_discount = false;
         }
         $saleDetails = $this->sale_details->create([

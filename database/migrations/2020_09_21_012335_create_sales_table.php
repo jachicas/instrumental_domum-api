@@ -16,7 +16,7 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();
             $table->double('total')->nullable();
             $table->boolean('status');
             $table->timestamps();

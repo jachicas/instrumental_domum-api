@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
-use App\Models\Sale;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminSaleDetailRequest extends FormRequest
+class AddItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,14 +25,6 @@ class AdminSaleDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'sale_id' => ['required', 'integer',
-            function ($attribute, $value, $fail) {
-                $instance = Sale::findOrFail($this->input('sale_id'));
-                if (!($instance->getAttribute('status'))) {
-                    $fail('This ' . $attribute . ' is not avaible');
-                }
-            }
-            ],
             'product_id' => ['required', 'integer'],
             'quantity' => [
                 'required', 'integer', 'gt:0',

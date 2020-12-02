@@ -144,4 +144,9 @@ class ProductController extends Controller
         return (new ProductResource($product))
             ->response('', 201);
     }
+
+    public function activeProducts()
+    {
+        return $this->products->where('status', true)->get()->values();
+    }
 }

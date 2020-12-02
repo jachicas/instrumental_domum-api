@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaleRequest;
-use App\Http\Resources\SaleDetailResource;
 use App\Http\Resources\SaleResource;
 use App\Models\Sale;
 use Illuminate\Http\Request;

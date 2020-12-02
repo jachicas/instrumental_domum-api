@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CarShopController;
 use App\Http\Controllers\OffterController;
 use App\Http\Controllers\ProductBinnacleController;
 use App\Http\Controllers\ProductController;
@@ -47,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', [LoginController::class, 'logout']);
 
         Route::get('me', [AuthController::class, 'me']);
+
+        Route::get('product/product_actives', [ProductController::class, 'activeProducts']);
     });
 
     Route::middleware('role:admin')->group(function () {
@@ -91,5 +94,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('remove_products/{product}', [ProductController::class, 'removeQuantityProduct']);
 
         Route::post('sale_actives', [SaleController::class, 'saleActives']);
+    });
+
+    Route::middleware('role:user')->group(function () {
+
+        Route::apiResource('products', ProductController::class)->only('index', 'show');
+
+        Route::get('car_shop/showCarShop', [CarShopController::class, 'showCarShop']);
+
+        Route::post('cap_shop/addItem', [CarShopController::class, 'addItem']);
     });
 });
