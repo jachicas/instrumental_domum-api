@@ -102,6 +102,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('car_shop/showCarShop', [CarShopController::class, 'showCarShop']);
 
-        Route::post('cap_shop/addItem', [CarShopController::class, 'addItem']);
+        Route::post('car_shop/addItem', [CarShopController::class, 'addItem']);
+
+        Route::post('car_shop/removeItem/{saleDetail}', [CarShopController::class, 'removeItem']);
     });
 });

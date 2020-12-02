@@ -11,6 +11,8 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CarShopController extends Controller
 {
     /**
@@ -56,7 +58,7 @@ class CarShopController extends Controller
             ]);
 
             return (new SaleDetailResource($saleDetails))
-            ->response('', 200);
+                ->response('', 200);
         } else {
             $product = Product::where('id', $request->product_id)->first();
             $product_price = Offter::where([
@@ -72,7 +74,7 @@ class CarShopController extends Controller
                 $with_discount = false;
             }
 
-            $saleDetails = $this->saleDetails->create([
+            $saleDetails = SaleDetail::create([
                 'sale_id' => $sale_active[0]->id,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
@@ -82,6 +84,22 @@ class CarShopController extends Controller
 
             return (new CarShopItemResource($saleDetails))
                 ->response('', 200);
+        }
+    }
+
+    public function removeItem(SaleDetail $saleDetail)
+    {
+        $sale_active = auth()->user()->sales->where('status', true);
+        if (!$sale_active->isEmpty()) {
+            if ($saleDetail->sale->user_id == auth()->id()) {
+                $saleDetail->delete();
+
+                return response('Item removed', 200);
+            } else {
+                return response('UNAUTHORIZED', 422);
+            }
+        } else {
+            return response('Your car shop is empty', 404);
         }
     }
 }
