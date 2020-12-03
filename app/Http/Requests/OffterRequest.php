@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Offter;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,12 +26,16 @@ class OffterRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => ['required', 'integer', 'exists:products,id',
+            'product_id' => [
+                'required', 'integer', 'exists:products,id',
                 Rule::unique('offters')->where(function ($query) {
-                    return $query->where([
-                        ['status', 1],
-                        ['product_id', $this->request->get('product_id')]
-                    ]);
+                    return $query->where(function ($query) {
+                        $query->where('product_id', $this->request->get('product_id'))
+                            ->where(function ($query2) {
+                                $query2->orWhereBetween('start', [$this->request->get('start'), $this->request->get('finish')])
+                                    ->orWhereBetween('finish', [$this->request->get('start'), $this->request->get('finish')]);
+                            });
+                    });
                 })->ignore($this->route('offter'))
             ],
             'discount' => ['required', 'integer', 'between:1,100'],

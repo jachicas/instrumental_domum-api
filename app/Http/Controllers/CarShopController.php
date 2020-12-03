@@ -11,8 +11,6 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 
-use function PHPUnit\Framework\isEmpty;
-
 class CarShopController extends Controller
 {
     /**
@@ -38,7 +36,8 @@ class CarShopController extends Controller
             ]);
             $product = Product::where('id', $request->product_id)->first();
             $product_price = Offter::where([
-                ['status', true],
+                ['start', '>=', now()],
+                ['finish', '<=', now()],
                 ['product_id', $request->product_id]
             ])->get();
             if (!$product_price->isEmpty()) {
@@ -62,7 +61,8 @@ class CarShopController extends Controller
         } else {
             $product = Product::where('id', $request->product_id)->first();
             $product_price = Offter::where([
-                ['status', true],
+                ['start', '>=', now()],
+                ['finish', '<=', now()],
                 ['product_id', $request->product_id]
             ])->get();
             if (!$product_price->isEmpty()) {
