@@ -36,10 +36,10 @@ class CarShopController extends Controller
             ]);
             $product = Product::where('id', $request->product_id)->first();
             $product_price = Offter::where([
-                ['start', '>=', now()],
-                ['finish', '<=', now()],
-                ['product_id', $request->product_id]
-            ])->get();
+                ['product_id', $product->id],
+                ['start', '<=', now()],
+                ['finish', '>=', now()]
+            ])->first();
             if (!$product_price->isEmpty()) {
                 $discount = $product->price * ($product_price[0]->discount / 100);
                 $totalSaleDetail = ($product->price - $discount) * $request->quantity;
@@ -61,12 +61,12 @@ class CarShopController extends Controller
         } else {
             $product = Product::where('id', $request->product_id)->first();
             $product_price = Offter::where([
-                ['start', '>=', now()],
-                ['finish', '<=', now()],
-                ['product_id', $request->product_id]
-            ])->get();
-            if (!$product_price->isEmpty()) {
-                $discount = $product->price * ($product_price[0]->discount / 100);
+                ['product_id', $product->id],
+                ['start', '<=', now()],
+                ['finish', '>=', now()]
+            ])->first();
+            if ($product_price) {
+                $discount = $product->price * ($product_price->discount / 100);
                 $totalSaleDetail = ($product->price - $discount) * $request->quantity;
                 $with_discount = true;
             } else {

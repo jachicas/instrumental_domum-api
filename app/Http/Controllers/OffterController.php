@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OffterRequest;
+use App\Http\Resources\ActiveOffterResource;
 use App\Http\Resources\OffterResource;
 use App\Models\Offter;
 
@@ -39,8 +40,6 @@ class OffterController extends Controller
     public function store(OffterRequest $request)
     {
         $offter = $this->offters->create($request->all());
-
-        //event(new OffterRegistered($offter));
 
         return (new OffterResource($offter))
             ->response('', 201);
@@ -83,5 +82,15 @@ class OffterController extends Controller
         $offter->delete();
 
         return response('Offter deleted', 205);
+    }
+
+    public function activeOffters()
+    {
+        $active_offters = $this->offters->where([
+            ['start', '<=', now()],
+            ['finish', '>=', now()]
+        ])->get();
+
+        return ActiveOffterResource::collection($active_offters);
     }
 }

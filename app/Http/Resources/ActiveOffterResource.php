@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OffterResource extends JsonResource
+class ActiveOffterResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -30,8 +30,6 @@ class OffterResource extends JsonResource
             'start' => $this->start,
             'finish' => $this->finish,
             'new_price' => $result,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
         ];
     }
 }

@@ -50,6 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', [AuthController::class, 'me']);
 
         Route::get('product/product_actives', [ProductController::class, 'activeProducts']);
+
+        Route::get('offter/offter_actives', [OffterController::class, 'activeOffters']);
     });
 
     Route::middleware('role:admin')->group(function () {

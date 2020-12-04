@@ -25,17 +25,21 @@ class OffterRequest extends FormRequest
      */
     public function rules()
     {
+        $start = $this->request->get('start');
+        $finish = $this->request->get('finish');
         return [
             'product_id' => [
                 'required', 'integer', 'exists:products,id',
-                Rule::unique('offters')->where(function ($query) {
-                    return $query->where(function ($query) {
-                        $query->where('product_id', $this->request->get('product_id'))
-                            ->where(function ($query2) {
-                                $query2->orWhereBetween('start', [$this->request->get('start'), $this->request->get('finish')])
-                                    ->orWhereBetween('finish', [$this->request->get('start'), $this->request->get('finish')]);
-                            });
-                    });
+                Rule::unique('offters')->where(function ($query) use ($start, $finish) {
+                    return $query->where('product_id', $this->request->get('product_id'))
+                    ->where(function ($query) use ($start, $finish) {
+                        $query->orWhereBetween('start', [$start, $finish])
+                        ->orWhereBetween('finish', [$start, $finish]);
+                    })->orWhere([
+                        ['product_id', $this->request->get('product_id')],
+                        ['start', '<=', $start],
+                        ['finish', '>=', $finish]
+                    ]);
                 })->ignore($this->route('offter'))
             ],
             'discount' => ['required', 'integer', 'between:1,100'],
