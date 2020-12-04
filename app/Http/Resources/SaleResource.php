@@ -14,8 +14,13 @@ class SaleResource extends JsonResource
      */
     public function toArray($request)
     {
+        $total_sale = $this->saleDetails->map(function ($sD) {
+            return $sD->total;
+        })->sum();
+        $money_back = $request->money_to_pay - $total_sale;
         return [
             'id' => $this->id,
+            'money_back' => $money_back,
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
