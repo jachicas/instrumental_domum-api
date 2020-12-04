@@ -17,7 +17,6 @@ class CreateOfftersTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->integer('discount');
-            $table->boolean('status');
             $table->timestamp('start');
             $table->timestamp('finish')->nullable();
             $table->timestamps();

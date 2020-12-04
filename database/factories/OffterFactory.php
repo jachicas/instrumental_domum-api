@@ -24,7 +24,6 @@ class OffterFactory extends Factory
         return [
             'product_id' => $this->faker->numberBetween($max = 20, $min = 1),
             'discount' => $this->faker->numberBetween($max = 10, $min = 60),
-            'status' => $this->faker->boolean(50),
             'start' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
             'finish' => $this->faker->date($format = 'Y-m-d', $min = 'now')
         ];

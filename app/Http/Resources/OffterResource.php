@@ -26,7 +26,6 @@ class OffterResource extends JsonResource
                 'price' => $this->product->price
             ],
             'discount' => $this->discount . '%',
-            'status' => $this->status,
             'start' => $this->start,
             'finish' => $this->finish,
             'new_price' => $result,

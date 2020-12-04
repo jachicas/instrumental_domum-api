@@ -49,6 +49,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('me', [AuthController::class, 'me']);
 
+        Route::apiResource('brands', BrandController::class)->only('index', 'show');
+
+        Route::apiResource('productTypes', ProductTypeController::class)->only('index', 'show');
+
         Route::get('product/product_actives', [ProductController::class, 'activeProducts']);
 
         Route::get('offter/offter_actives', [OffterController::class, 'activeOffters']);
@@ -99,8 +103,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::middleware('role:user')->group(function () {
-
-        Route::apiResource('products', ProductController::class)->only('index', 'show');
 
         Route::get('car_shop/showCarShop', [CarShopController::class, 'showCarShop']);
 

@@ -43,7 +43,6 @@ class OffterRequest extends FormRequest
                 })->ignore($this->route('offter'))
             ],
             'discount' => ['required', 'integer', 'between:1,100'],
-            'status' => ['required', 'boolean'],
             'start' => ['required', 'date_format:Y-m-d H:i', 'after:now'],
             'finish' => ['required', 'date_format:Y-m-d H:i', 'after:start']
         ];

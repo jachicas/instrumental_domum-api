@@ -10,7 +10,7 @@ class Offter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id', 'discount', 'status', 'start', 'finish'
+        'product_id', 'discount', 'start', 'finish'
     ];
 
     public function product()
