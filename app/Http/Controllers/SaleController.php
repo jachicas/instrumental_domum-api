@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance
      * @param Sale $sale
      * @return void
@@ -93,5 +93,12 @@ class SaleController extends Controller
         $saleDetails = $this->sales->where('status', $request->status)->get();
 
         return SaleResource::collection($saleDetails);
+    }
+
+    public function pastUserSales()
+    {
+        $sales = auth()->user()->sales->where('status', false);
+
+        return SaleResource::collection($sales);
     }
 }

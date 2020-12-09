@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CarShopController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OffterController;
 use App\Http\Controllers\ProductBinnacleController;
 use App\Http\Controllers\ProductController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleDetailController;
 use App\Http\Controllers\User\Auth\UserAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::apiResource('admins', AdminController::class);
 
+        Route::apiResource('employees', EmployeeController::class);
+
+        Route::apiResource('users', UserController::class);
+
         Route::apiResource('brands', BrandController::class);
 
         Route::apiResource('productTypes', ProductTypeController::class);
@@ -77,8 +83,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('product_binnacles', ProductBinnacleController::class)->only('index', 'show');
 
         Route::post('action_product_binnacles/{product}', [ProductBinnacleController::class, 'withAction']);
-
-        Route::post('register', [RegisterController::class, 'register'])->name('verification.notice');
     });
 
     Route::middleware('role:admin|employee')->group(function () {
@@ -111,5 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('car_shop/removeItem/{saleDetail}', [CarShopController::class, 'removeItem']);
 
         Route::post('car_shop/payCarShop', [CarShopController::class, 'payCarShop']);
+
+        Route::get('sale/pastSales', [SaleController::class, 'pastUserSales']);
     });
 });

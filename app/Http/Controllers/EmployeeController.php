@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AdminRequest;
+use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class EmployeeController extends Controller
 {
-
     /**
      * The admin model instance
      */
@@ -34,11 +33,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = $this->employees->whereHas('roles', function ($q) {
-            $q->where('name', 'admin');
+        $employees = $this->employees->whereHas('roles', function ($q) {
+            $q->where('name', 'employee');
         })->get();
 
-        return EmployeeResource::collection($admins);
+        return EmployeeResource::collection($employees);
     }
 
     /**
@@ -47,18 +46,18 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminRequest $request)
+    public function store(EmployeeRequest $request)
     {
-        $admin = $this->employees->create($request->all());
+        $employee = $this->employees->create($request->all());
 
-        $admin->assignRole('admin');
+        $employee->assignRole('employee');
 
-        $admin->createToken('device_name')->plainTextToken;
+        $employee->createToken('device_name')->plainTextToken;
 
-        event(new Registered($admin));
+        event(new Registered($employee));
 
-        return (new EmployeeResource($admin))
-            ->response('Admin Created', 201);
+        return (new EmployeeResource($employee))
+            ->response('', 201);
     }
 
     /**
@@ -67,10 +66,10 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $admin)
+    public function show(Employee $employee)
     {
-        if ($admin->getRoleNames()[0] == "admin") {
-            return new EmployeeResource($admin);
+        if ($employee->getRoleNames()[0] == "employee") {
+            return new EmployeeResource($employee);
         } else {
             return response('', 404);
         }
@@ -83,12 +82,12 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminRequest $request, Employee $admin)
+    public function update(EmployeeRequest $request, Employee $employee)
     {
-        if ($admin->getRoleNames()[0] == "admin") {
-            $admin->update($request->all());
+        if ($employee->getRoleNames()[0] == "employee") {
+            $employee->update($request->all());
 
-            return (new EmployeeResource($admin))
+            return (new EmployeeResource($employee))
                 ->response('Employe Updated', 205);
         } else {
             return response('', 404);
@@ -101,23 +100,14 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $admin)
+    public function destroy(Employee $employee)
     {
-        if ($admin->getRoleNames()[0] == "admin") {
-            if (auth()->id() != $admin->id) {
-                $admin->delete();
+        if ($employee->getRoleNames()[0] == "employee") {
+            $employee->delete();
 
-                return response('', 205);
-            } else {
-                return response('', 422);
-            }
+            return response('', 205);
         } else {
             return response('', 404);
         }
-    }
-
-    public function adminFirstExist()
-    {
-        return $this->employees->role('admin')->exists() ? response('Admin exist', 401) : response('Create a new admin', 200);
     }
 }
