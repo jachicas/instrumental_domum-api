@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CarShopController;
 use App\Http\Controllers\EmployeeController;
@@ -29,7 +31,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return response('listo');
+})->name('verification.verify');
+
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+
 Route::post('login', [UserAuthController::class, 'login']);
+
+Route::post('user/register', [RegisterController::class, 'registerUser']);
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
 
@@ -39,12 +52,6 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-
-    Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-
-        return redirect('/');
-    })->middleware(['signed'])->name('verification.verify');
 
     Route::middleware('role:admin|employee|user')->group(function () {
         Route::get('logout', [LoginController::class, 'logout']);

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\Employee;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -39,20 +41,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    public function registerEmployee(EmployeeRequest $data)
+    public function registerUser(UserRequest $data)
     {
-        $employee = Employee::create([
+        $employee = User::create([
             'name' => $data->name,
             'last_name' => $data->last_name,
-            'dui' => $data->dui,
-            'nit' => $data->nit,
-            'birthdate' => $data->birthdate,
             'email' => $data->email,
-            'password' => Hash::make($data->password),
-            'phone' => $data->phone
+            'password' => Hash::make($data->password)
         ]);
 
-        $employee->assignRole('employee');
+        $employee->assignRole('user');
 
         $employee->createToken('device_name')->plainTextToken;
 
@@ -60,5 +58,4 @@ class RegisterController extends Controller
 
         return $employee;
     }
-
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -56,7 +55,7 @@ class UserController extends Controller
 
         $user->assignRole('user');
 
-        $user->createToken('device_name')->plainTextToken;
+        $user->createToken('device_name1')->plainTextToken;
 
         event(new Registered($user));
 

@@ -24,9 +24,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        OffterRegistered::class => [
-            UpdateStatusOffter::class,
-        ],
     ];
 
     /**
