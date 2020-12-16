@@ -2,10 +2,9 @@
 
 namespace App\Console;
 
-use App\Listeners\UpdateStatusOffter;
-use App\Models\Offter;
-use Carbon\Carbon;
+use App\Jobs\SendBirthdayEmail;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Filesystem\Cache;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-       //
+        $schedule->job(new SendBirthdayEmail)->dailyAt('18:50');
     }
 
     /**

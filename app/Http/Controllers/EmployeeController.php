@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
+use App\Mail\BirthdayEmail;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EmployeeController extends Controller
 {
@@ -109,5 +112,21 @@ class EmployeeController extends Controller
         } else {
             return response('', 404);
         }
+    }
+
+    public function testingAll()
+    {
+        $now = Carbon::now();
+        $day = $now->isoFormat("D");
+        $month = $now->isoFormat("M");
+        $data = $this->employees->whereDay('birthdate', $day)
+        ->whereMonth('birthdate', $month)
+        ->get();
+
+        $data->each(function ($d) {
+            Mail::to($d->email)->send(new BirthdayEmail);
+        });
+
+        return response('NICE', 200);
     }
 }

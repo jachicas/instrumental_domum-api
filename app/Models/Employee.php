@@ -34,7 +34,7 @@ class Employee extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $hidden = [
-        'password', 'vefirication_code'
+        'password', 'remeber_token'
     ];
 
     public function sale()

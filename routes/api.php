@@ -49,6 +49,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
 
     Route::get('first', [AdminController::class, 'adminFirstExist']);
+
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -68,6 +69,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::middleware('role:admin')->group(function () {
+
+        Route::get('birthdate', [EmployeeController::class, 'testingAll']);
 
         Route::apiResource('admins', AdminController::class);
 
