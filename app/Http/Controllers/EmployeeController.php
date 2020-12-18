@@ -123,6 +123,10 @@ class EmployeeController extends Controller
         ->whereMonth('birthdate', $month)
         ->get();
 
+        if ($data->isEmpty()) {
+            return response('No hay cumpleanero', 404);
+        }
+
         $data->each(function ($d) {
             Mail::to($d->email)->send(new BirthdayEmail);
         });

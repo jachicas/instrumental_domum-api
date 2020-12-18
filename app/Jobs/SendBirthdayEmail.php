@@ -19,6 +19,13 @@ class SendBirthdayEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 3;
+
+    /**
      * Create a new job instance.
      *
      * @return void
@@ -41,6 +48,10 @@ class SendBirthdayEmail implements ShouldQueue
         $data = Employee::whereDay('birthdate', $day)
             ->whereMonth('birthdate', $month)
             ->get();
+
+        if ($data->isEmpty()) {
+            return response('No hay cumpleanero', 404);
+        }
 
         return $data->each(function ($d) {
             Mail::to($d->email)->send(new BirthdayEmail);

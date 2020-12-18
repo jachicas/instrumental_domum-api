@@ -12,6 +12,10 @@ use App\Models\Offter;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use Exception;
+use Stripe\Charge;
+use Stripe\Stripe;
+use Stripe\StripeClient;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -114,18 +118,38 @@ class CarShopController extends Controller
             $total_sale = $user_sale->saleDetails->map(function ($sd) {
                 return $sd->total;
             })->sum();
-            if ($request->money_to_pay >= $total_sale) {
-                $user_sale->update([
-                    'payment_method' => $request->payment_method,
-                    'total' => $total_sale,
-                    'status' => false
-                ]);
 
-                return (new SaleResource($user_sale))
-                    ->response('', 205);
-            } else {
-                return response('Error!', 422);
+            Stripe::setApiKey('sk_test_51Hz8buJdRKL0oZle7N2lOUBKag79TRQToSNAGXg0FMOlP7a9xyLjlPRqX2PuCo0wH603IZPcjalhEIbXk6gBkVEo0083TgCv9C');
+
+            $stripe = new StripeClient('sk_test_51Hz8buJdRKL0oZle7N2lOUBKag79TRQToSNAGXg0FMOlP7a9xyLjlPRqX2PuCo0wH603IZPcjalhEIbXk6gBkVEo0083TgCv9C');
+
+            try {
+                $stripe->tokens->create([
+                    'card' => $request['card']
+                ]);
+            } catch (Exception $e) {
+                return response('Error: ' . $e->getMessage(), 400);
             }
+
+            try {
+                $stripe->charges->create([
+                    'amount' => $total_sale * 100,
+                    'currency' => "usd",
+                    'source' => "tok_mastercard",
+                    'description' => "Instrumental domum"
+                ]);
+            } catch (\Exception $e) {
+                return response('ERROR ' . $e, 404);
+            }
+
+            $user_sale->update([
+                'payment_method' => 'card',
+                'total' => $total_sale,
+                'status' => false
+            ]);
+
+            return (new SaleResource($user_sale))
+                ->response('', 205);
         } else {
             return response('Sale not active', 422);
         }

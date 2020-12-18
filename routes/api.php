@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CarShopController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OffterController;
 use App\Http\Controllers\ProductBinnacleController;
@@ -37,6 +38,8 @@ Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $reque
     return response('listo');
 })->name('verification.verify');
 
+Route::post('checkout', [CheckoutController::class, 'afterpayment'])->name('checkout.credit-card');
+
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
 
@@ -49,7 +52,6 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
 
     Route::get('first', [AdminController::class, 'adminFirstExist']);
-
 });
 
 Route::middleware('auth:sanctum')->group(function () {

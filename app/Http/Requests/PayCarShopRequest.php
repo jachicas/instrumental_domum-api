@@ -24,8 +24,12 @@ class PayCarShopRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_method' => ['required', 'string', 'in:card,cash'],
-            'money_to_pay' => ['required', 'gt:0']
+            'card' => [
+                'number' => ['required', 'numeric'],
+                'exp_month' => ['required', 'numeric'],
+                'cvc' => ['required', 'numeric'],
+                'exp_year' => ['required', 'numeric']
+            ]
         ];
     }
 }
