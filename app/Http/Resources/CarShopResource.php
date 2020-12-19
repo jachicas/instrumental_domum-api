@@ -14,9 +14,7 @@ class CarShopResource extends JsonResource
      */
     public function toArray($request)
     {
-        $total_sale = $this->saleDetails->map(function ($sD) {
-            return $sD->total;
-        })->sum();
+        $total_sale = $this->saleDetails->sum->total;
         return [
             'total_sale' => $total_sale,
             'items' => $this->saleDetails->map(fn ($sD) => [

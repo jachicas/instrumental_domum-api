@@ -13,14 +13,16 @@ class BirthdayEmail extends Mailable
 
     protected $title;
 
+    public $d;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($d)
     {
-        //
+        $this->d = $d;
     }
 
     /**

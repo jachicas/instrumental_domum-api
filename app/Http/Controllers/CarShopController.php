@@ -6,14 +6,12 @@ use App\Http\Requests\AddItemRequest;
 use App\Http\Requests\PayCarShopRequest;
 use App\Http\Resources\CarShopItemResource;
 use App\Http\Resources\CarShopResource;
-use App\Http\Resources\SaleDetailResource;
 use App\Http\Resources\SaleResource;
 use App\Models\Offter;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use Exception;
-use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 
@@ -114,10 +112,8 @@ class CarShopController extends Controller
     public function payCarShop(PayCarShopRequest $request)
     {
         $user_sale = auth()->user()->sales->where('status', true)->first();
-        if ($user_sale) {
-            $total_sale = $user_sale->saleDetails->map(function ($sd) {
-                return $sd->total;
-            })->sum();
+        if ($user_sale->saleDetails->isNotEmpty()) {
+            $total_sale = $user_sale->saleDetails->sum->total;
 
             Stripe::setApiKey('sk_test_51Hz8buJdRKL0oZle7N2lOUBKag79TRQToSNAGXg0FMOlP7a9xyLjlPRqX2PuCo0wH603IZPcjalhEIbXk6gBkVEo0083TgCv9C');
 
@@ -125,7 +121,7 @@ class CarShopController extends Controller
 
             try {
                 $stripe->tokens->create([
-                    'card' => $request['card']
+                    'card' => $request->only('card')
                 ]);
             } catch (Exception $e) {
                 return response('Error: ' . $e->getMessage(), 400);

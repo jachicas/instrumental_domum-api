@@ -54,7 +54,7 @@ class SendBirthdayEmail implements ShouldQueue
         }
 
         return $data->each(function ($d) {
-            Mail::to($d->email)->send(new BirthdayEmail);
+            Mail::to($d->email)->send(new BirthdayEmail($d));
         });
     }
 }
