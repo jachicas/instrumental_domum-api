@@ -51,20 +51,20 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('first', [AdminController::class, 'adminFirstExist']);
 });
 
+Route::apiResource('brands', BrandController::class)->only('index', 'show');
+
+Route::apiResource('productTypes', ProductTypeController::class)->only('index', 'show');
+
+Route::get('product/product_actives', [ProductController::class, 'activeProducts']);
+
+Route::get('offter/offter_actives', [OffterController::class, 'activeOffters']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:admin|employee|user')->group(function () {
         Route::get('logout', [LoginController::class, 'logout']);
 
         Route::get('me', [AuthController::class, 'me']);
-
-        Route::apiResource('brands', BrandController::class)->only('index', 'show');
-
-        Route::apiResource('productTypes', ProductTypeController::class)->only('index', 'show');
-
-        Route::get('product/product_actives', [ProductController::class, 'activeProducts']);
-
-        Route::get('offter/offter_actives', [OffterController::class, 'activeOffters']);
     });
 
     Route::middleware('role:admin')->group(function () {
