@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Employee;
-use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class EmployeeSeeder extends Seeder
 {
