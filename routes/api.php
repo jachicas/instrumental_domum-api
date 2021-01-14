@@ -31,14 +31,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return response('listo');
-})->middleware(['auth:sanctum'])->name('verification.verify');
-
-Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+Route::post('password/email', [ForgotPasswordController::class, 'forget'])->name('password.reset');
+Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
 Route::post('login', [UserAuthController::class, 'login']);
 

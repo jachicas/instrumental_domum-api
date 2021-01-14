@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTypeController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-Route::get('testView', function () {
-    return view('mail.birthday-mail');
-});
+
+Route::get('assets/{path}/{source}', [BrandController::class, 'get'])
+    ->middleware('role:admin|employee|user');

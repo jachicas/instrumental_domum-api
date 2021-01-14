@@ -24,7 +24,8 @@ class ProductTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'unique:product_types,name', 'max:255']
+            'name' => ['required', 'string', 'unique:product_types,name', 'max:255'],
+            'image' => ['required', 'image', 'dimensions:max_width=600,max_height=600']
         ];
     }
 }

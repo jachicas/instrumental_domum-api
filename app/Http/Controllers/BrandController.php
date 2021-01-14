@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BrandRequest;
 use App\Http\Resources\BrandResource;
 use App\Models\Brand;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -38,10 +40,35 @@ class BrandController extends Controller
      */
     public function store(BrandRequest $request)
     {
-        $brand = $this->brands->create($request->all());
+        $image = $request->image
+            ->store($this->getFolder($request->image->extension()));
+
+        $brand = $this->brands->create([
+            'name' => $request->name,
+            'image' => $image
+        ]);
 
         return (new BrandResource($brand))
             ->response('Brand Created', 201);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Resource  $resource
+     * @return \Illuminate\Http\Response
+     */
+    public function get($path, $resource)
+    {
+        $exists = Storage::exists("{$path}/{$resource}");
+
+        if ($exists) {
+            $file = Storage::get("{$path}/{$resource}");
+
+            return response($file)
+                ->header('Content-Type', $this->getMIME($path));
+        } else {
+            return response('', 404);
+        }
     }
 
     /**
@@ -62,9 +89,11 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BrandRequest $request, Brand $brand)
+    public function update(Request $request, Brand $brand)
     {
-        $brand->update($request->all());
+        $brand->update([
+            'name' => $request->name
+        ]);
 
         return (new BrandResource($brand))
             ->response('Brand Update', 205);
@@ -80,6 +109,26 @@ class BrandController extends Controller
     {
         $brand->delete();
 
+        Storage::delete($brand->image);
+
         return response('Brand Deleted', 205);
+    }
+
+    private function getFolder($extension)
+    {
+        switch ($extension) {
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+                return 'images';
+        }
+    }
+
+    private function getMIME($path)
+    {
+        switch ($path) {
+            case 'images':
+                return 'image/png,image/jpeg,image/jpg';
+        }
     }
 }

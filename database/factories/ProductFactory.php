@@ -29,7 +29,8 @@ class ProductFactory extends Factory
             'brand_id' => Brand::factory(),
             'status' => $this->faker->boolean(50),
             'quantity' => $this->faker->randomNumber($nbDigits = 3),
-            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 5000)
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 5000),
+            'image' => $this->faker->text()
         ];
     }
 }

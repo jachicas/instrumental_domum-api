@@ -24,7 +24,8 @@ class BrandRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['unique:brands,name', 'required', 'string', 'max:255']
+            'name' => ['unique:brands,name', 'required', 'string', 'max:255'],
+            'image' => ['required', 'image', 'dimensions:max_width=600,max_height=600']
         ];
     }
 }

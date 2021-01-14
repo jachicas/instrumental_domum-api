@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->boolean('status');
             $table->integer('quantity');
             $table->double('price', 6, 2);
+            $table->text('image');
             $table->timestamps();
         });
     }

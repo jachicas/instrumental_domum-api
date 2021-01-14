@@ -14,6 +14,8 @@ class ProductTypeResource extends JsonResource
      */
     public function toArray($request)
     {
+        $url = url("assets/{$this->image}");
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -27,6 +29,7 @@ class ProductTypeResource extends JsonResource
                 'created_at' => $product->created_at,
                 'updated_at' => $product->updated_at
             ]),
+            'image' => $url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

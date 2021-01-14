@@ -30,7 +30,8 @@ class ProductRequest extends FormRequest
             'brand_id' => ['required', 'integer', 'exists:brands,id'],
             'status' => ['required', 'boolean'],
             'quantity' => ['required', 'integer', 'min:1'],
-            'price' => ['required', 'numeric', 'min:0']
+            'price' => ['required', 'numeric', 'min:0'],
+            'image' => ['required', 'image', 'dimensions:max_width=600,max_height=600']
         ];
     }
 }
