@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,7 +31,7 @@ class ProductFactory extends Factory
             'status' => $this->faker->boolean(50),
             'quantity' => $this->faker->randomNumber($nbDigits = 3),
             'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 5000),
-            'image' => $this->faker->text()
+            'image_id' => $this->faker->numberBetween($max = 20, $min = 1),
         ];
     }
 }

@@ -31,7 +31,7 @@ class ProductRequest extends FormRequest
             'status' => ['required', 'boolean'],
             'quantity' => ['required', 'integer', 'min:1'],
             'price' => ['required', 'numeric', 'min:0'],
-            'image' => ['required', 'image', 'dimensions:max_width=600,max_height=600']
+            'image_id' => ['required', 'integer', 'exists:images,id']
         ];
     }
 }

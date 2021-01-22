@@ -15,8 +15,6 @@ use Exception;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 
-use function PHPUnit\Framework\isEmpty;
-
 class CarShopController extends Controller
 {
     /**

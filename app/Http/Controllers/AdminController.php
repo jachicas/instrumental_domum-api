@@ -6,7 +6,6 @@ use App\Http\Requests\AdminRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {

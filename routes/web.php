@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('assets/{path}/{source}', [BrandController::class, 'get'])
+Route::get('assets/{path}/{source}', [ImageController::class, 'get'])
     ->middleware('role:admin|employee|user');

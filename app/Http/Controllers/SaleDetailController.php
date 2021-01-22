@@ -7,7 +7,6 @@ use App\Http\Resources\SaleDetailResource;
 use App\Models\Offter;
 use App\Models\Product;
 use App\Models\SaleDetail;
-use Illuminate\Http\Request;
 
 class SaleDetailController extends Controller
 {

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductTypeRequest extends FormRequest
 {
@@ -24,8 +25,11 @@ class ProductTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'unique:product_types,name', 'max:255'],
-            'image' => ['required', 'image', 'dimensions:max_width=600,max_height=600']
+            'name' => [
+                'required', 'string', 'max:255',
+                Rule::unique('product_types')->ignore($this->route('productType'))
+            ],
+            'image_id' => ['required', 'integer', 'exists:images,id']
         ];
     }
 }

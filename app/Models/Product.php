@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'product_type_id', 'brand_id', 'status', 'quantity', 'price', 'image'
+        'name', 'product_type_id', 'brand_id', 'status', 'quantity', 'price', 'image_id'
     ];
 
     public function productType()
@@ -36,5 +36,10 @@ class Product extends Model
     public function productBinnacles()
     {
         return $this->hasMany('App\Models\ProductBinnacle');
+    }
+
+    public function image()
+    {
+        return $this->belongsTo('App\Models\Image');
     }
 }

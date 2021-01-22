@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductTypeRequest;
 use App\Http\Resources\ProductTypeResource;
 use App\Models\ProductType;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductTypeController extends Controller
 {
@@ -40,30 +38,10 @@ class ProductTypeController extends Controller
      */
     public function store(ProductTypeRequest $request)
     {
-        $image = $request->image
-            ->store($this->getFolder($request->image->extension()));
-
-        $product_type = $this->product_types->create([
-            'name' => $request->name,
-            'image' => $image
-        ]);
+        $product_type = $this->product_types->create($request->all());
 
         return (new ProductTypeResource($product_type))
             ->response('Product type created', 201);
-    }
-
-    public function get($path, $resource)
-    {
-        $exists = Storage::exists("{$path}/{$resource}");
-
-        if ($exists) {
-            $file = Storage::get("{$path}/{$resource}");
-
-            return response($file)
-                ->header('Content-Type', $this->getMIME($path));
-        } else {
-            return response('', 404);
-        }
     }
 
     /**
@@ -102,24 +80,8 @@ class ProductTypeController extends Controller
     {
         $productType->delete();
 
-        return response('Product type deleted', 205);
-    }
-
-    private function getFolder($extension)
-    {
-        switch ($extension) {
-            case 'jpg':
-            case 'jpeg':
-            case 'png':
-                return 'images';
-        }
-    }
-
-    private function getMIME($path)
-    {
-        switch ($path) {
-            case 'images':
-                return 'image/png,image/jpeg,image/jpg';
-        }
+        return response()->json([
+            "message" => "Product Type deleted"
+        ], 205);
     }
 }

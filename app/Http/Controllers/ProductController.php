@@ -8,7 +8,6 @@ use App\Http\Requests\RemoveProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductBinnacle;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -43,18 +42,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image = $request->image
-            ->store($this->getFolder($request->image->extension()));
-
-        $product = $this->products->create([
-            'name' => $request->name,
-            'product_type_id' => $request->product_type_id,
-            'brand_id' => $request->brand_id,
-            'status' => $request->status,
-            'quantity' => $request->quantity,
-            'price' => $request->price,
-            'image' => $image
-        ]);
+        $product = $this->products->create($request->all());
 
         ProductBinnacle::create([
             'product_id' => $product->id,
@@ -65,25 +53,6 @@ class ProductController extends Controller
 
         return (new ProductResource($product))
             ->response('', 201);
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Resource  $resource
-     * @return \Illuminate\Http\Response
-     */
-    public function get($path, $resource)
-    {
-        $exists = Storage::exists("{$path}/{$resource}");
-
-        if ($exists) {
-            $file = Storage::get("{$path}/{$resource}");
-
-            return response($file)
-                ->header('Content-Type', $this->getMIME($path));
-        } else {
-            return response('', 404);
-        }
     }
 
     /**
@@ -177,24 +146,8 @@ class ProductController extends Controller
 
     public function activeProducts()
     {
-        return $this->products->where('status', true)->get()->values();
-    }
+        $products = $this->products->where('status', true)->get()->values();
 
-    private function getFolder($extension)
-    {
-        switch ($extension) {
-            case 'jpg':
-            case 'jpeg':
-            case 'png':
-                return 'images';
-        }
-    }
-
-    private function getMIME($path)
-    {
-        switch ($path) {
-            case 'images':
-                return 'image/png,image/jpeg,image/jpg';
-        }
+        return ProductResource::collection($products);
     }
 }

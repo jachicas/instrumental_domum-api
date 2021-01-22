@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductTypesTable extends Migration
+class AddBrandImageToBrands extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateProductTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 140)->unique();
-            $table->timestamps();
+        Schema::table('brands', function (Blueprint $table) {
+            $table->foreignId('image_id')->after('name')->constrained();
         });
     }
 
@@ -27,6 +25,8 @@ class CreateProductTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_types');
+        Schema::table('brands', function (Blueprint $table) {
+            $table->removeColumn('image_id');
+        });
     }
 }

@@ -23,7 +23,7 @@ class ProductTypeFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->word,
-            'image' => $this->faker->text()
+            'image_id' => $this->faker->numberBetween($max = 20, $min = 1),
         ];
     }
 }

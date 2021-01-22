@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class BrandRequest extends FormRequest
+class ImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,8 @@ class BrandRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required', 'string', 'max:255',
-                Rule::unique('brands')->ignore($this->route('brand'))
-            ],
-            'image_id' => ['required', 'integer', 'exists:images,id']
+            'name' => ['required', 'string'],
+            'image' => ['required', 'image', 'dimensions:max_width=600,max_height=600']
         ];
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CarShopController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OffterController;
 use App\Http\Controllers\ProductBinnacleController;
 use App\Http\Controllers\ProductController;
@@ -63,25 +64,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
 
-        Route::get('birthdate', [EmployeeController::class, 'testingAll']);
-
         Route::apiResource('admins', AdminController::class);
 
         Route::apiResource('employees', EmployeeController::class);
 
         Route::apiResource('users', UserController::class);
 
-        Route::apiResource('brands', BrandController::class);
+        Route::apiResource('brands', BrandController::class)->except('index', 'show');
 
-        Route::apiResource('productTypes', ProductTypeController::class);
+        Route::apiResource('productTypes', ProductTypeController::class)->except('except', 'show');
 
-        Route::apiResource('products', ProductController::class);
+        Route::apiResource('products', ProductController::class)->except('index', 'store', 'show');
 
-        Route::apiResource('offters', OffterController::class)->except('show');
+        Route::apiResource('offters', OffterController::class)->except('show', 'index', 'store');
 
-        Route::apiResource('sales', SaleController::class);
+        Route::apiResource('sales', SaleController::class)->except('index', 'show');
 
-        Route::apiResource('sale_details', SaleDetailController::class)->only('index', 'store');
+        Route::apiResource('images', ImageController::class)->only('index', 'store', 'update', 'destroy');
+
+        Route::apiResource('sale_details', SaleDetailController::class)->only('store');
 
         Route::apiResource('product_binnacles', ProductBinnacleController::class)->only('index', 'show');
 
@@ -90,9 +91,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:admin|employee')->group(function () {
 
-        Route::apiResource('brands', BrandController::class)->only('index', 'store', 'show');
+        Route::apiResource('brands', BrandController::class)->only('store');
 
-        Route::apiResource('productTypes', ProductTypeController::class)->only('index', 'store', 'show');
+        Route::apiResource('productTypes', ProductTypeController::class)->only('store');
 
         Route::apiResource('products', ProductController::class)->only('index', 'store', 'show');
 
