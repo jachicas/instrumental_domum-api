@@ -77,7 +77,7 @@ class CarShopController extends Controller
                 $totalSaleDetail = $product->price * $request->quantity;
                 $with_discount = false;
             }
-
+            //test commit
             $saleDetails = SaleDetail::create([
                 'sale_id' => $sale_active[0]->id,
                 'product_id' => $request->product_id,
